@@ -39,7 +39,6 @@ public class FileRestController {
 
 
     @Operation(summary = "Get all files",description = "REST Endpoint to get all the files")
-    @ApiResponse()
     @GetMapping(value = "/",produces = "application/json")
     public ResponseEntity<List<FileEntity>> getAllFile() {
         /**
