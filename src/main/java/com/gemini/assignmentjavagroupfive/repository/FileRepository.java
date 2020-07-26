@@ -7,6 +7,5 @@ import java.util.Optional;
 
 public interface FileRepository extends JpaRepository<FileEntity,Long> {
     Optional<FileEntity> findDistinctByFileName(String name);
-
     void deleteDistinctByFileName(String fileName);
 }

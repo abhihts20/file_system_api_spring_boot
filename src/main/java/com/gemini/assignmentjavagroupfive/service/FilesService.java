@@ -37,7 +37,7 @@ public class FilesService {
         }
     }
 
-    public FileEntity createOrUpdateFile(FileEntity fileEntity) throws RecordNotFoundException, IOException {
+    public FileEntity createUpdateFile(FileEntity fileEntity) throws RecordNotFoundException, IOException {
         Optional<FileEntity> updateEntity = fileRepository.findDistinctByFileName(fileEntity.getFileName());
 //        if (updateEntity.isPresent()){
 //            FileEntity newEntity1=updateEntity.get();

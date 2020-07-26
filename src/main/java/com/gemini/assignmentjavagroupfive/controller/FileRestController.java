@@ -26,15 +26,15 @@ public class FileRestController {
     }
 
     @GetMapping("/{fileName}")
-    public ResponseEntity<FileEntity> getFileByName(@PathVariable("fileName") String fileName) throws RecordNotFoundException {
+    public ResponseEntity<Object> getFileByName(@PathVariable("fileName") String fileName) throws RecordNotFoundException {
         FileEntity entity = filesService.getFileByName(fileName);
-        return new ResponseEntity<FileEntity>(entity,new HttpHeaders(),HttpStatus.OK);
+        return new ResponseEntity<>(entity.getFileContent(),new HttpHeaders(),HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<Object> createFile(@RequestBody FileEntity fileEntity) throws IOException {
-        FileEntity entity=filesService.createOrUpdateFile(fileEntity);
-        return new ResponseEntity<Object>("File created succesfully",new HttpHeaders(),HttpStatus.CREATED);
+        FileEntity entity=filesService.createUpdateFile(fileEntity);
+        return new ResponseEntity<Object>("File created successfully",new HttpHeaders(),HttpStatus.CREATED);
     }
 
 }
