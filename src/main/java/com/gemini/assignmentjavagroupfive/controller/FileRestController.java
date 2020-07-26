@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.transform.sax.SAXResult;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -33,8 +35,20 @@ public class FileRestController {
 
     @PostMapping
     public ResponseEntity<Object> createFile(@RequestBody FileEntity fileEntity) throws IOException {
-        FileEntity entity=filesService.createUpdateFile(fileEntity);
+        FileEntity entity=filesService.createFile(fileEntity);
         return new ResponseEntity<Object>("File created successfully",new HttpHeaders(),HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{fileName}")
+    public ResponseEntity<FileEntity> updateFile(@PathVariable("fileName")String fileName,@RequestBody FileEntity fileEntity) throws RecordNotFoundException, IOException {
+        FileEntity entity=filesService.updateFile(fileName);
+        return new ResponseEntity<FileEntity>(entity,new HttpHeaders(),HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{fileName}")
+    public HttpStatus deleteFileByName(@PathVariable("fileName")String fileName) throws RecordNotFoundException{
+        filesService.deleteFileByName(fileName);
+        return HttpStatus.FORBIDDEN;
     }
 
 }

@@ -37,22 +37,36 @@ public class FilesService {
         }
     }
 
-    public FileEntity createUpdateFile(FileEntity fileEntity) throws RecordNotFoundException, IOException {
-        Optional<FileEntity> updateEntity = fileRepository.findDistinctByFileName(fileEntity.getFileName());
-//        if (updateEntity.isPresent()){
-//            FileEntity newEntity1=updateEntity.get();
-//            newEntity1.setFileContent(fileEntity.getFileContent());
-//            newEntity1=fileRepository.save(newEntity1);
-//            return newEntity1;
-//        }
+    public FileEntity createFile(FileEntity fileEntity) throws RecordNotFoundException, IOException {
         File file = new File(fileEntity.getFileName());
-        FileWriter fileWriter = new FileWriter(file);
-        fileWriter.write(fileEntity.getFileContent());
-        fileEntity.setFilePath(file.getAbsolutePath());
-        fileWriter.close();
-        fileEntity = fileRepository.save(fileEntity);
-        return fileEntity;
+        if (!file.exists()){
+            FileWriter fileWriter = new FileWriter(file);
+            fileWriter.write(fileEntity.getFileContent());
+            fileEntity.setFilePath(file.getAbsolutePath());
+            fileWriter.close();
+            fileEntity = fileRepository.save(fileEntity);
+            return fileEntity;
+        }
+        else{
+            throw new RecordNotFoundException("File Already Exits");
+        }
+    }
 
+    public FileEntity updateFile(String fileName) throws RecordNotFoundException, IOException {
+        Optional<FileEntity> updateEntity = fileRepository.findDistinctByFileName(fileName);
+        if (updateEntity.isPresent()){
+            FileEntity newEntity1=updateEntity.get();
+            File file;
+            newEntity1.setFileContent(newEntity1.getFileContent());
+            newEntity1=fileRepository.save(newEntity1);
+            FileWriter fileWriter=new FileWriter(newEntity1.getFilePath());
+            fileWriter.write(newEntity1.getFileContent());
+            fileWriter.close();
+            return newEntity1;
+        }else
+        {
+            throw new RecordNotFoundException("No file exists of this name");
+        }
 
     }
 
