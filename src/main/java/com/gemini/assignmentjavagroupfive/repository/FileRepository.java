@@ -1,5 +1,6 @@
-package com.gemini.assignmentjavagroupfive;
+package com.gemini.assignmentjavagroupfive.repository;
 
+import com.gemini.assignmentjavagroupfive.dataModel.FileEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

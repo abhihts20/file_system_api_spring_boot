@@ -1,4 +1,4 @@
-package com.gemini.assignmentjavagroupfive;
+package com.gemini.assignmentjavagroupfive.exception;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

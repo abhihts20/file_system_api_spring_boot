@@ -1,4 +1,4 @@
-package com.gemini.assignmentjavagroupfive;
+package com.gemini.assignmentjavagroupfive.exception;
 
 import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;

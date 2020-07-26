@@ -1,4 +1,4 @@
-package com.gemini.assignmentjavagroupfive;
+package com.gemini.assignmentjavagroupfive.dataModel;
 
 import javax.persistence.*;
 
