@@ -56,11 +56,12 @@ public class FilesService {
         Optional<FileEntity> updateEntity = fileRepository.findDistinctByFileName(fileName);
         if (updateEntity.isPresent()){
             FileEntity newEntity1=updateEntity.get();
-            File file;
+            File file=new File(newEntity1.getFilePath());
+            FileWriter fileWriter=new FileWriter(file);
+            fileWriter.write(newEntity1.getFileContent());
+            newEntity1.setFilePath(file.getAbsolutePath());
             newEntity1.setFileContent(newEntity1.getFileContent());
             newEntity1=fileRepository.save(newEntity1);
-            FileWriter fileWriter=new FileWriter(newEntity1.getFilePath());
-            fileWriter.write(newEntity1.getFileContent());
             fileWriter.close();
             return newEntity1;
         }else
@@ -72,8 +73,12 @@ public class FilesService {
 
     public void deleteFileByName(String fileName) throws RecordNotFoundException {
         Optional<FileEntity> file = fileRepository.findDistinctByFileName(fileName);
+        FileEntity fileEntity=file.get();
         if (file.isPresent()) {
-            fileRepository.deleteDistinctByFileName(fileName);
+            File file1=new File(fileEntity.getFilePath());
+            file1.delete();
+            fileRepository.deleteById(fileEntity.getId());
+
         } else {
             throw new RecordNotFoundException("No file exists of this name");
         }
