@@ -1,8 +1,11 @@
 package com.gemini.assignmentjavagroupfive.service;
 
+import com.gemini.assignmentjavagroupfive.controller.FileRestController;
 import com.gemini.assignmentjavagroupfive.dataModel.FileEntity;
 import com.gemini.assignmentjavagroupfive.repository.FileRepository;
 import com.gemini.assignmentjavagroupfive.exception.RecordNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,8 @@ import java.util.Optional;
 
 @Service
 public class FilesService {
+
+    private static final Logger logger= LoggerFactory.getLogger(FilesService.class);
 
     @Autowired
     FileRepository fileRepository;
@@ -33,6 +38,7 @@ public class FilesService {
         if (files.isPresent()) {
             return files.get();
         } else {
+            logger.error("File with name {} not found",fileName);
             throw new RecordNotFoundException("No file exists of this given name");
         }
     }
@@ -48,24 +54,26 @@ public class FilesService {
             return fileEntity;
         }
         else{
+            logger.info("File with name {} already exists",file.getName());
             throw new RecordNotFoundException("File Already Exits");
         }
     }
 
-    public FileEntity updateFile(String fileName) throws RecordNotFoundException, IOException {
+    public FileEntity updateFile(String fileName,FileEntity fileEntity) throws RecordNotFoundException, IOException {
         Optional<FileEntity> updateEntity = fileRepository.findDistinctByFileName(fileName);
         if (updateEntity.isPresent()){
-            FileEntity newEntity1=updateEntity.get();
-            File file=new File(newEntity1.getFilePath());
+            FileEntity newEntity=updateEntity.get();
+            File file=new File(fileEntity.getFileName());
             FileWriter fileWriter=new FileWriter(file);
-            fileWriter.write(newEntity1.getFileContent());
-            newEntity1.setFilePath(file.getAbsolutePath());
-            newEntity1.setFileContent(newEntity1.getFileContent());
-            newEntity1=fileRepository.save(newEntity1);
+            fileWriter.write(fileEntity.getFileContent());
+            newEntity.setFilePath(file.getAbsolutePath());
+            newEntity.setFileContent(fileEntity.getFileContent());
+            newEntity=fileRepository.save(newEntity);
             fileWriter.close();
-            return newEntity1;
+            return newEntity;
         }else
         {
+            logger.error("File named {} not exists",fileName);
             throw new RecordNotFoundException("No file exists of this name");
         }
 
@@ -80,6 +88,7 @@ public class FilesService {
             fileRepository.deleteById(fileEntity.getId());
 
         } else {
+            logger.error("File named {} not found",fileName);
             throw new RecordNotFoundException("No file exists of this name");
         }
     }
