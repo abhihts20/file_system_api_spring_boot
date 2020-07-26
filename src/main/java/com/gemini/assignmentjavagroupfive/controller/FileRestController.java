@@ -5,6 +5,7 @@ import com.gemini.assignmentjavagroupfive.dataModel.FileEntity;
 import com.gemini.assignmentjavagroupfive.service.FilesService;
 import com.gemini.assignmentjavagroupfive.exception.RecordNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class FileRestController {
 
 
     @Operation(summary = "Get all files")
-    @GetMapping("/")
+    @GetMapping(value = "/")
     public ResponseEntity<List<FileEntity>> getAllFile() {
         List<FileEntity> list = filesService.getAllFiles();
         return new ResponseEntity<List<FileEntity>>(list, new HttpHeaders(), HttpStatus.OK);
@@ -41,7 +42,9 @@ public class FileRestController {
         return new ResponseEntity<>(entity.getFileContent(),new HttpHeaders(),HttpStatus.OK);
     }
 
-    @Operation(summary = "Create a new File")
+    @Parameter(name = "fileName",description = "Name of the file",required = true)
+    @Parameter(name = "fileContent",description = "Content of the file",required = true)
+    @Operation(summary = "Create a new File",description ="Rest Endpoint that returns a object after creating a file")
     @PostMapping
     public ResponseEntity<Object> createFile(@RequestBody FileEntity fileEntity) throws IOException {
         FileEntity entity=filesService.createFile(fileEntity);
