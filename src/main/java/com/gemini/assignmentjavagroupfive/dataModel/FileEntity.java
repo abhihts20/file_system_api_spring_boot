@@ -7,6 +7,9 @@ import javax.persistence.*;
 @Entity
 @Table(name = "FILE_TABLE")
 public class FileEntity {
+    /**
+     * Data Model Containing Columns to store the data
+     * */
 
     @Id
     @GeneratedValue
