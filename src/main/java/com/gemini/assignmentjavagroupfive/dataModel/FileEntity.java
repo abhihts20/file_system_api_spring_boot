@@ -1,5 +1,7 @@
 package com.gemini.assignmentjavagroupfive.dataModel;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+
 import javax.persistence.*;
 
 @Entity

@@ -28,14 +28,14 @@ public class FileRestController {
     FilesService filesService;
 
 
-    @Operation(summary = "Get all files")
+    @Operation(summary = "Get all files",description = "REST Endpoint to get all the files")
     @GetMapping(value = "/")
     public ResponseEntity<List<FileEntity>> getAllFile() {
         List<FileEntity> list = filesService.getAllFiles();
         return new ResponseEntity<List<FileEntity>>(list, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @Operation(summary = "Get File by its name")
+    @Operation(summary = "Get File by its name",description = "REST Endpoint to get a file by its name")
     @GetMapping("/{fileName}")
     public ResponseEntity<Object> getFileByName(@PathVariable("fileName") String fileName) throws RecordNotFoundException {
         FileEntity entity = filesService.getFileByName(fileName);
@@ -44,21 +44,21 @@ public class FileRestController {
 
     @Parameter(name = "fileName",description = "Name of the file",required = true)
     @Parameter(name = "fileContent",description = "Content of the file",required = true)
-    @Operation(summary = "Create a new File",description ="Rest Endpoint that returns a object after creating a file")
+    @Operation(summary = "Create a new File",description ="REST Endpoint that returns a object after creating a file")
     @PostMapping
     public ResponseEntity<Object> createFile(@RequestBody FileEntity fileEntity) throws IOException {
         FileEntity entity=filesService.createFile(fileEntity);
         return new ResponseEntity<Object>("File created successfully",new HttpHeaders(),HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Update a content of file by its file name")
+    @Operation(summary = "Update a content of file by its name",description = "REST Endpoint to update a file by its name")
     @PutMapping("/{fileName}")
     public ResponseEntity<FileEntity> updateFile(@PathVariable("fileName")String fileName,@RequestBody FileEntity fileEntity) throws RecordNotFoundException, IOException {
         FileEntity entity=filesService.updateFile(fileName,fileEntity);
         return new ResponseEntity<FileEntity>(entity,new HttpHeaders(),HttpStatus.OK);
     }
 
-    @Operation(summary = "Delete a file by its name")
+    @Operation(summary = "Delete a file by its name",description = "REST Endpoint to delete a file by its name")
     @DeleteMapping("/{fileName}")
     public HttpStatus deleteFileByName(@PathVariable("fileName")String fileName) throws RecordNotFoundException{
         filesService.deleteFileByName(fileName);
