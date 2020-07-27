@@ -66,8 +66,8 @@ public class FileRestController {
     @Parameter(name = "fileName",description = "Name of the file",required = true)
     @Parameter(name = "fileContent",description = "Content of the file",required = true)
     @Operation(summary = "Create a new File",description ="REST Endpoint that returns a object after creating a file")
-    @PostMapping(value = "/")
-    public ResponseEntity<Object> createFile(@RequestBody FileEntity fileEntity) throws IOException {
+    @PostMapping(value = "/",consumes = "application/json",produces = "aaplication/json")
+    public ResponseEntity<FileEntity> createFile(@RequestBody FileEntity fileEntity) throws IOException {
         /**
          * POST API method to create file
          * @apiNote localhost:8080/file/
@@ -76,7 +76,7 @@ public class FileRestController {
          * @response status message
          *  */
         FileEntity entity=filesService.createFile(fileEntity);
-        return new ResponseEntity<Object>("File created successfully",new HttpHeaders(),HttpStatus.CREATED);
+        return new ResponseEntity<FileEntity>(entity,new HttpHeaders(),HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update a content of file by its name",description = "REST Endpoint to update a file by its name")
