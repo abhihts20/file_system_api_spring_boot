@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +23,8 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.management.OperatingSystemMXBean;
 import java.util.List;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 /**
  * REST API Controller Class
@@ -39,7 +42,7 @@ public class FileRestController {
 
 
     @Operation(summary = "Get all files",description = "REST Endpoint to get all the files")
-    @GetMapping(value = "/",produces = "application/json")
+    @GetMapping(value = "/")
     public ResponseEntity<List<FileEntity>> getAllFile() {
         /**
          *GET API method to get all the files in a directory
@@ -66,7 +69,7 @@ public class FileRestController {
     @Parameter(name = "fileName",description = "Name of the file",required = true)
     @Parameter(name = "fileContent",description = "Content of the file",required = true)
     @Operation(summary = "Create a new File",description ="REST Endpoint that returns a object after creating a file")
-    @PostMapping(value = "/",consumes = "application/json",produces = "aaplication/json")
+    @PostMapping(value = "/")
     public ResponseEntity<FileEntity> createFile(@RequestBody FileEntity fileEntity) throws IOException {
         /**
          * POST API method to create file
